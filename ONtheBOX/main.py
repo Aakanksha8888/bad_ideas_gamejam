@@ -33,7 +33,7 @@ world=Background(screen,(69,69,69),"background/realbg.jpeg")
 """
 gameloop=True
 object=pygame.Rect(300,400,32,32)
-cat=Player(screen,LENGTH-((BLOCKSIZE)*6),HEIGHT-(BLOCKSIZE+BLOCKSIZE+25),BLOCKSIZE,BLOCKSIZE,"enemies\CatBasket.png",2)
+cat=Stuff(screen,LENGTH-((BLOCKSIZE)*6),HEIGHT-(BLOCKSIZE+BLOCKSIZE+25),BLOCKSIZE,BLOCKSIZE,"enemies\CatBasket.png",2,None)
 #define player and objects(for now object and plaer both by player class)
 tom=Player(screen,PLAYER_X,PLAYER_Y,PLAYER_FAT,PLAYER_HEIGHT,"enemies\CatBasket.png",1)
 floor=[]
