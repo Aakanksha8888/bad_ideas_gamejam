@@ -26,7 +26,7 @@ pygame.init()
 screen = pygame.display.set_mode((LENGTH,HEIGHT))
 pygame.display.set_caption("we are on the box")
 
-ICON = pygame.image.load(os.path.join(BASE_DIR, "enemies", "CatBasket.png"))
+ICON = pygame.image.load(os.path.join(BASE_DIR, "caracter", "greenboy.png"))
 pygame.display.set_icon(ICON)
 
 clock = pygame.time.Clock()
@@ -103,7 +103,7 @@ for (start_col, end_col, row) in platform_layout:
         )
         platforms.append(block)
 
-all_blocks = floor + platforms
+all_blocks = floor + platforms #+ [invisiblewall]
 
 tom = Player(screen,PLAYER_X,PLAYER_Y,PLAYER_FAT,PLAYER_HEIGHT,all_blocks)
 
@@ -198,6 +198,7 @@ while gameloop==True:
         cat.draw()
         cat.update(tom)
         cat.show_door(tom)
+        
         for i in all_blocks:
             i.draw()
 
@@ -211,12 +212,20 @@ while gameloop==True:
         # cat collision - only triggers when cooldown has expired
         if tom.colliderect(cat) and hit_cooldown <= 0:
             tom.health -= 1
-            hit_cooldown = int(FPS * 2.5)  # 2.5 seconds recovery time
-            if tom.health <= 0:
+            hit_cooldown = int(FPS * 2)  # 2 seconds no damage
+            
+            
+            if tom.health < 0:
                 game_over = True
                 menu_state = "end"   # go straight to end screen
                 dead_sound.play()
 
+#logic to not go past cat
+        keys = pygame.key.get_pressed()
+        if tom.colliderect(cat) and tom.x < cat.x:
+            if not (keys[pygame.K_a] or keys[pygame.K_LEFT]): #dont do this player will have a flight freese (only freeze repose)
+                tom.right = cat.left + 22
+#yep this much
         spike.update(tom)
         spike.teleport(tom, TELEPORT_X, TELEPORT_Y)
 
@@ -331,13 +340,3 @@ while gameloop==True:
     pygame.draw.rect(screen,(0,250,250),object,0,1,100,-50,90,1110)
     pygame.display.update()
     clock.tick(FPS)
-
-
-
-
-            
-
-    
-        
-
-        
